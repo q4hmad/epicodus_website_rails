@@ -1,7 +1,26 @@
 <h1><%= @course.name %></h1>
 
-<p><%= link_to "Return to courses", courses_path %></p>
+<% if @course.weeks.any? %>
+
+
+  <ul>
+    <% @course.weeks.each do |week| %>
+      <li>
+        <%= week.number %> |
+        <%= link_to "Edit", edit_course_week_path(@course, week) %> |
+        <%= link_to "Delete", course_week_path(@course, week),
+                                 :data => {:confirm => "Are you sure?",
+                                                :method => "delete"} %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>There are no weeks yet!</p>
+<% end %>
+
+<p><%= link_to "Add a week number", new_course_week_path(@course) %></p>
 <p><%= link_to "Edit", edit_course_path(@course) %></p>
 <p><%= link_to "Delete", course_path(@course),
                          :data => {:confirm => "You sure?",
                                    :method => "delete"} %></p>
+<p><%= link_to "Return to courses", courses_path %></p>
